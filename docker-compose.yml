@@ -1,0 +1,42 @@
+version: "3.4"
+services:
+  web:
+    build: .docker/nginx
+    privileged: true
+    command: nginx -g "daemon off;"
+    ports:
+      - 5001:80
+    volumes:
+      - .:/var/www/html
+
+  php:
+    build: .docker/php
+    privileged: true
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - db
+      - web
+    environment:
+      APP_ENV: ${APP_ENV}
+      APP_DEBUG: ${APP_DEBUG}
+      APP_KEY: ${APP_KEY}
+      APP_LOCALE: en
+      APP_FALLBACK_LOCALE: en
+      DB_CONNECTION: mysql
+      DB_HOST: ${DB_HOST}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+
+  db:
+    image: mysql:8
+    privileged: true
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./.docker/mysql/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
