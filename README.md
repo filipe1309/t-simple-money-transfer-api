@@ -11,6 +11,12 @@
 
 This is a simple API to transfer money between users.
 
+## Architecture
+
+This system uses an Event Driven Architecture with jobs & queues.
+
+![Architecture](architecture.png)
+
 ## :computer: Technologies
 
 -   [Lumen 8](https://lumen.laravel.com/)
