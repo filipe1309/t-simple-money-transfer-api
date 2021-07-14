@@ -33,6 +33,8 @@ services:
     image: mysql:8
     privileged: true
     command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - 3306:3306
     volumes:
       - ./.docker/mysql/data:/var/lib/mysql
     environment:
@@ -40,3 +42,12 @@ services:
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_PASSWORD}
+
+  redis:
+    image: redis:3.2-alpine
+    ports:
+      - 6381:6379
+    deploy:
+      resources:
+        limits:
+          memory: 1g
