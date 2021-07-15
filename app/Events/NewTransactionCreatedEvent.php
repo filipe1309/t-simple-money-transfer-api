@@ -2,8 +2,6 @@
 
 namespace App\Events;
 
-use App\Models\Transaction;
-
 class NewTransactionCreatedEvent extends Event
 {
     /**
@@ -12,7 +10,7 @@ class NewTransactionCreatedEvent extends Event
      * @return void
      */
     public function __construct(
-        private Transaction $transaction
+        private array $transaction
     ) {
     }
 }

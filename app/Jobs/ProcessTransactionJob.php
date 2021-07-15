@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Models\Transaction;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -20,7 +19,7 @@ class ProcessTransactionJob implements ShouldQueue
      * @return void
      */
     public function __construct(
-        private Transaction $transaction
+        private array $transaction
     ) {
         $this->transaction = $transaction;
     }
@@ -33,7 +32,7 @@ class ProcessTransactionJob implements ShouldQueue
     public function handle()
     {
         DB::table('transactions')
-            ->where('id', $this->transaction->id)
+            ->where('id', $this->transaction['id'])
             ->update(['processed' => true]);
     }
 }
