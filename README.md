@@ -43,10 +43,25 @@ cd t-simple-money-transfer-api
 ## :runner: Running
 
 ```sh
-docker-compose up
+docker-compose up -d
+docker-compose exec php php artisan queue:listen --queue=transactionJobQueue,notificationEventQueue --timeout=60 --sleep=3 --tries=3
 ```
 
-> Access http://localhost:8000
+> Access http://localhost:5001
+
+### Trigger transaction
+
+`POST http://localhost:5001/v1/transactions`
+
+```json
+{
+    "payer": "91e92c5f-d9d0-437a-9435-58839fdbb6c5",
+    "payee": "9442fd46-44cf-4571-9bfd-59670b765719",
+    "value": 444
+}
+```
+
+> `payer` & `payee` are the wallets id of the users
 
 ## :white_check_mark: Tests
 
@@ -55,6 +70,14 @@ After up the container:
 ```sh
 docker-compose exec -t php ./vendor/bin/phpunit
 ```
+
+## :pushpin: Roadmap
+
+-   [ ] Use a Supervisor to monitor the queues and keep works active
+-   [ ] Improve code organization with Clean Architectures
+-   [ ] Improve authentication with Laravel Passport
+-   [ ] Refactor Transaction & Notification systems into isolated microservices
+-   [ ] Migrato to Cloud, like AWS, to be able to scale and use things like SQS, Lambdas & SNS.
 
 ## License
 
