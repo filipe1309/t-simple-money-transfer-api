@@ -37,17 +37,18 @@ services:
       - 3306:3306
     volumes:
       - ./.docker/mysql/data:/var/lib/mysql
+      - ./.docker/mysql/sql:/docker-entrypoint-initdb.d/
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_PASSWORD}
 
-  redis:
-    image: redis:3.2-alpine
-    ports:
-      - 6381:6379
-    deploy:
-      resources:
-        limits:
-          memory: 1g
+  # redis:
+  #   image: redis:3.2-alpine
+  #   ports:
+  #     - 6381:6379
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         memory: 1g
