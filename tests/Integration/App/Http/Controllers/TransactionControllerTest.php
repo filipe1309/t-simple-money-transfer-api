@@ -39,8 +39,8 @@ class TransactionControllerTest extends TestCase
         $value = 123.45;
 
         $this->withoutMiddleware()->post("v1/transactions", [
-            'payer' => $common->id,
-            'payee' => $shopkeeper->id,
+            'payer' => $commonWallet->id,
+            'payee' => $shopkeeperWallet->id,
             'value' => $value
         ]);
 
