@@ -21,9 +21,18 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $isShopkeeper = (int) $this->faker->boolean;
         return [
-            'name' => $this->faker->name,
-            'email' => $this->faker->unique()->safeEmail,
+            'id' => $this->faker->uuid,
+            'full_name' => $isShopkeeper ? $this->faker->company : $this->faker->name,
+            'email' =>  $isShopkeeper
+                ? $this->faker->unique()->companyEmail
+                : $this->faker->unique()->safeEmail,
+            'password' => '$2y$10$IiPnvo1IcavNTDUCeeTK7OEj8lZm65eedj2/A0dgvwm67LBK3onAa',
+            'registration_number' =>  $isShopkeeper
+                ? $this->faker->numerify('##############')
+                : $this->faker->numerify('###########'),
+            'shopkeeper' =>  $isShopkeeper
         ];
     }
 }
