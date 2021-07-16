@@ -67,8 +67,9 @@ class ProcessTransactionJob implements ShouldQueue
             DB::commit();
 
             $this->dispatchNotificationEvents();
+        } catch (NotEnoughtBalanceException | PayerIsAShopKeeperException | TransactionNotAuthorizedException $e) {
+            $this->dispatchFailedNotificationEvent($e->getMessage());
         } catch (Throwable $e) {
-            dd($e);
             throw $e;
         }
     }
@@ -98,7 +99,16 @@ class ProcessTransactionJob implements ShouldQueue
         event(new TransactionProcessedEvent([
             'status' => true,
             'wallet_id' => $this->transaction['payee_wallet_id'],
-            'message' => 'Good news, you receive a transaction  of ' . $this->transaction['value']
+            'message' => 'Good news, you receive a transaction  of $ ' . $this->transaction['value']
+        ]));
+    }
+
+    private function dispatchFailedNotificationEvent(string $reason): void
+    {
+        event(new TransactionProcessedEvent([
+            'status' => false,
+            'wallet_id' => $this->transaction['payer_wallet_id'],
+            'message' => 'Transaction failed, reason: ' . $reason
         ]));
     }
 }
