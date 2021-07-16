@@ -18,12 +18,6 @@ class MailService
 
     public function send(array $transactionInfo)
     {
-        // $message = (new TransactionNotificationMail('success', 'OK'))
-        //     ->onQueue('notificationEventQueue');
-
-        // Mail::to('test@test.com')
-        //     ->queue($message);
-
         $walletId = $transactionInfo['wallet_id'];
         $userWallet = $this->walletRepository->findOneBy($walletId);
         $user = $this->userRepository->findOneBy($userWallet['user_id']);
@@ -32,7 +26,6 @@ class MailService
 
         $mailMessage = (new TransactionNotificationMail($user['full_name'], $message, $status));
 
-        Mail::to($user['email'])
-            ->send($mailMessage);
+        Mail::to($user['email'])->send($mailMessage);
     }
 }
