@@ -15,4 +15,17 @@ class TransactionRepository
     {
         return $this->model::create($data)->toArray();
     }
+
+    /**
+     * @param string $id
+     * @param array $data
+     * @return boolean
+     */
+    public function updateBy(string $id, array $data): bool
+    {
+        $result = $this->model::where('id', $id)->firstOrFail()
+            ->update($data);
+
+        return (bool) $result;
+    }
 }
