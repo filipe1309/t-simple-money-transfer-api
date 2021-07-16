@@ -31,7 +31,7 @@ class ProcessTransactionJob implements ShouldQueue
      * @return void
      */
     public function __construct(
-        private array $transaction
+        public array $transaction
     ) {
         $this->transactionRepository = app(TransactionRepository::class);
         $this->walletRepository = app(WalletRepository::class);
