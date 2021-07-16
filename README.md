@@ -11,9 +11,9 @@
 
 This is a simple API to transfer money between users.
 
-## Architecture
+## :triangular_ruler: Architecture
 
-This system uses an Event Driven Architecture with jobs & queues.
+This system uses an Event Driven Architecture with `events`, `jobs` & `queues`.
 
 ![Architecture](architecture.png)
 
@@ -44,6 +44,9 @@ cd t-simple-money-transfer-api
 
 ```sh
 docker-compose up -d
+```
+
+```sh
 docker-compose exec php php artisan queue:listen --queue=transactionJobQueue,notificationEventQueue --timeout=60 --sleep=3 --tries=3
 ```
 
@@ -77,7 +80,7 @@ docker-compose exec -t php ./vendor/bin/phpunit
 -   [ ] Improve code organization with Clean Architectures
 -   [ ] Improve authentication with Laravel Passport
 -   [ ] Refactor Transaction & Notification systems into isolated microservices
--   [ ] Migrato to Cloud, like AWS, to be able to scale and use things like SQS, Lambdas & SNS.
+-   [ ] Migrate to to Cloud, like AWS, to be able to scale and use things like SQS, Lambdas & SNS.
 
 ## License
 
