@@ -18,6 +18,19 @@ class WalletRepository
 
     /**
      * @param string $id
+     * @param array $data
+     * @return boolean
+     */
+    public function updateBy(string $id, array $data): bool
+    {
+        $result = $this->model::where('id', $id)->firstOrFail()
+            ->update($data);
+
+        return (bool) $result;
+    }
+
+    /**
+     * @param string $id
      * @return array
      */
     public function findOneBy(string $id): array
