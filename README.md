@@ -71,7 +71,7 @@ docker-compose exec php php artisan queue:listen --queue=transactionJobQueue,not
 After up the container:
 
 ```sh
-docker-compose exec -t php ./vendor/bin/phpunit
+docker-compose exec php ./vendor/bin/phpunit
 ```
 
 ## :pushpin: Roadmap
