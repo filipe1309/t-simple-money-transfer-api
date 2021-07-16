@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\V1;
 
-use App\Events\NewTransactionCreatedEvent;
+use App\Exceptions\NotEnoughtBalanceException;
+use App\Exceptions\PayerIsAShopKeeperException;
 use App\Http\Controllers\Controller;
-use App\Jobs\ProcessTransactionJob;
-use App\Models\Transaction;
-use App\Models\Wallet;
+use App\Http\Validators\ValidatesTransactionRequest;
 use App\Services\TransactionService;
+use Exception;
 use Illuminate\Http\Request;
-use Ramsey\Uuid\Uuid;
+use Illuminate\Http\Response;
 
 class TransactionController extends Controller
 {
+    use ValidatesTransactionRequest;
     /**
      * Create a new controller instance.
      *
@@ -25,7 +26,19 @@ class TransactionController extends Controller
 
     public function create(Request $request)
     {
-        $transaction = $this->service->create($request->all());
-        return json_encode(['status' => true, 'id' => $transaction['id']]);
+        try {
+            $this->validateCreateRequest($request);
+            $transaction = $this->service->create($request->all());
+            $response = ['status' => true, 'id' => $transaction['id']];
+            $statusCode = Response::HTTP_CREATED;
+        } catch (NotEnoughtBalanceException | PayerIsAShopKeeperException $e) {
+            $response = ['message' => $e->getMessage()];
+            $statusCode = $e->getCode();
+        } catch (Exception $e) {
+            $response = ['message' => $e->getMessage()];
+            $statusCode = Response::HTTP_BAD_REQUEST;
+        }
+
+        return response()->json($response, $statusCode);
     }
 }
