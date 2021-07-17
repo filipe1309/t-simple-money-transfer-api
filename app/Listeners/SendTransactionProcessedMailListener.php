@@ -9,9 +9,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SendTransactionProcessedMailListener implements ShouldQueue
 {
-    public $queue = 'notificationEventQueue';
+    public string $queue = 'notificationEventQueue';
 
-    public $delay = 2;
+    public int $delay = 2;
 
     /**
      * Create the event listener.
@@ -36,17 +36,5 @@ class SendTransactionProcessedMailListener implements ShouldQueue
         } catch (\Throwable $th) {
             dd($th);
         }
-    }
-
-    /**
-     * Handle a job failure.
-     *
-     * @param  \App\Events\OrderShipped  $event
-     * @param  \Throwable  $exception
-     * @return void
-     */
-    public function failed(TransactionProcessedEvent $event, $exception)
-    {
-        dd($exception);
     }
 }

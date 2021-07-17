@@ -14,7 +14,7 @@ class ExternalAuthorizerService
         return $this->isAuthorized($response->json(), $response->status());
     }
 
-    private function isAuthorized(array $responseBody, $responseStatus)
+    private function isAuthorized(array $responseBody, int $responseStatus): bool
     {
         return $responseBody['message'] === env('EXTERNAL_AUTHORIZER_MESSAGE') && $responseStatus === Response::HTTP_OK;
     }

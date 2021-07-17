@@ -13,7 +13,7 @@ trait ValidatesTransactionRequest
     /**
      * @param Request $request
      */
-    protected function validateCreateRequest(Request $request)
+    protected function validateCreateRequest(Request $request): void
     {
         $this->validate($request, [
             'payer' => ['required', 'uuid', 'exists:wallets,id'], //, new PayerIsACommonUser, new PayerHasEnoughBalance($request->input('value'))

@@ -46,7 +46,7 @@ class TransactionService
         ];
     }
 
-    public function payerWalletHasEnoughBalance(string $payer_wallet_id, $value): bool
+    public function payerWalletHasEnoughBalance(string $payer_wallet_id, float $value): bool
     {
         $payer_wallet = $this->walletRepository->findOneBy($payer_wallet_id);
         return $payer_wallet['balance'] >= $value;

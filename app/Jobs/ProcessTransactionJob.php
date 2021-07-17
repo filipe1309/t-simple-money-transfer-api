@@ -46,7 +46,6 @@ class ProcessTransactionJob implements ShouldQueue
     public function handle()
     {
         try {
-
             if (!$this->transactionService->payerWalletHasEnoughBalance($this->transaction['payer_wallet_id'], $this->transaction['value'])) {
                 throw new NotEnoughtBalanceException();
             }

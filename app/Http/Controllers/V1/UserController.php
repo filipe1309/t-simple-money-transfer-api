@@ -12,6 +12,7 @@ use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
+    private array $searchFields = ['full_name', 'email', 'shopkeeper', 'registration_number'];
     /**
      * Create a new controller instance.
      *

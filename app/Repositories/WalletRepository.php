@@ -6,9 +6,9 @@ use App\Models\Wallet;
 
 class WalletRepository
 {
-    public function __construct(Wallet $model)
-    {
-        $this->model = $model;
+    public function __construct(
+        private Wallet $model
+    ) {
     }
 
     public function create(array $data): array

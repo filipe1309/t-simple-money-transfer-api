@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Wallet extends Model
 {
@@ -19,8 +20,8 @@ class Wallet extends Model
 
     public $incrementing = false;
 
-    public function users()
+    public function users(): BelongsTo
     {
-        return $this->belongsTo(users::class);
+        return $this->belongsTo(User::class);
     }
 }

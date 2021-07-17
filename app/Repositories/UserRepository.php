@@ -96,7 +96,7 @@ class UserRepository
      * @param array $orderBy
      * @param integer $limit
      * @param string $query
-     * @return array
+     * @return LengthAwarePaginator
      */
     protected function buildPaginate(Builder $results, array $orderBy, int $limit, string $query = null): LengthAwarePaginator
     {

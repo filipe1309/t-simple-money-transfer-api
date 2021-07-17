@@ -16,7 +16,7 @@ class MailService
     ) {
     }
 
-    public function send(array $transactionInfo)
+    public function send(array $transactionInfo): void
     {
         $walletId = $transactionInfo['wallet_id'];
         $userWallet = $this->walletRepository->findOneBy($walletId);

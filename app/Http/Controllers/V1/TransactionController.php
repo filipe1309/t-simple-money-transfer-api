@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Validators\ValidatesTransactionRequest;
 use App\Services\TransactionService;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -24,7 +25,7 @@ class TransactionController extends Controller
     ) {
     }
 
-    public function create(Request $request)
+    public function create(Request $request): JsonResponse
     {
         try {
             $this->validateCreateRequest($request);
