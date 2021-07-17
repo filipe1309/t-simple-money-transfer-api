@@ -5,6 +5,9 @@ namespace App\Services;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 
+/**
+ * @SuppressWarnings(PHPMD.StaticAccess)
+ */
 class ExternalAuthorizerService
 {
     public function authorize(array $transaction): bool

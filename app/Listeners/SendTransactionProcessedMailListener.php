@@ -7,6 +7,9 @@ use App\Services\MailService;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
+/**
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
 class SendTransactionProcessedMailListener implements ShouldQueue
 {
     public string $queue = 'notificationEventQueue';

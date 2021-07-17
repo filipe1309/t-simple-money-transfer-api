@@ -16,12 +16,16 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
+/**
+ * @SuppressWarnings(PHPMD.StaticAccess)
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
 class ProcessTransactionJob implements ShouldQueue
 {
 
     use InteractsWithQueue, Queueable, SerializesModels;
 
-    private TransactionRepository $transactionRepository;
+    private TransactionRepository $transactionRepo;
     private WalletRepository $walletRepository;
     private TransactionService $transactionService;
 
@@ -33,7 +37,7 @@ class ProcessTransactionJob implements ShouldQueue
     public function __construct(
         public array $transaction
     ) {
-        $this->transactionRepository = app(TransactionRepository::class);
+        $this->transactionRepo = app(TransactionRepository::class);
         $this->walletRepository = app(WalletRepository::class);
         $this->transactionService = app(TransactionService::class);
     }
@@ -75,17 +79,17 @@ class ProcessTransactionJob implements ShouldQueue
     private function processWallets(): void
     {
         $payerWallet = $this->walletRepository->findOneBy($this->transaction['payer_wallet_id']);
-        $payerWalletNewBalance = bcsub($payerWallet['balance'], $this->transaction['value'], 2);
-        $this->walletRepository->updateBy($this->transaction['payer_wallet_id'], ['balance' => $payerWalletNewBalance]);
+        $payerWalletBalance = bcsub($payerWallet['balance'], $this->transaction['value'], 2);
+        $this->walletRepository->updateBy($this->transaction['payer_wallet_id'], ['balance' => $payerWalletBalance]);
 
         $payeeWallet = $this->walletRepository->findOneBy($this->transaction['payee_wallet_id']);
-        $payeeWalletNewBalance = bcadd($payeeWallet['balance'], $this->transaction['value'], 2);
-        $this->walletRepository->updateBy($this->transaction['payee_wallet_id'], ['balance' => $payeeWalletNewBalance]);
+        $payeeWalletBalance = bcadd($payeeWallet['balance'], $this->transaction['value'], 2);
+        $this->walletRepository->updateBy($this->transaction['payee_wallet_id'], ['balance' => $payeeWalletBalance]);
     }
 
     private function processTransaction(): void
     {
-        $this->transactionRepository->updateBy($this->transaction['id'], ['processed' => true]);
+        $this->transactionRepo->updateBy($this->transaction['id'], ['processed' => true]);
     }
 
     private function dispatchNotificationEvents(): void

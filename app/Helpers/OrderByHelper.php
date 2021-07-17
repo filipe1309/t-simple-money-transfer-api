@@ -2,9 +2,11 @@
 
 namespace App\Helpers;
 
+use InvalidArgumentException;
+
 class OrderByHelper
 {
-    public static function treatOrderBy(string $orderBy): array
+    public function treatOrderBy(string $orderBy): array
     {
         $orderByArray = [];
 
@@ -16,7 +18,7 @@ class OrderByHelper
             $value = trim($value);
 
             if (!preg_match("/^(-)?[A-Za-z0-9_]+$/", $value)) {
-                throw new \InvalidArgumentException('"order_by" param is in invalid format');
+                throw new InvalidArgumentException('"order_by" param is in invalid format');
             }
 
             $orderByArray[$value] = 'ASC';

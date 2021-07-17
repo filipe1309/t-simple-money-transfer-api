@@ -4,6 +4,9 @@ namespace App\Repositories;
 
 use App\Models\Wallet;
 
+/**
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
 class WalletRepository
 {
     public function __construct(
@@ -17,25 +20,25 @@ class WalletRepository
     }
 
     /**
-     * @param string $id
+     * @param string $walletId
      * @param array $data
      * @return boolean
      */
-    public function updateBy(string $id, array $data): bool
+    public function updateBy(string $walletId, array $data): bool
     {
-        $result = $this->model::where('id', $id)->firstOrFail()
+        $result = $this->model::where('id', $walletId)->firstOrFail()
             ->update($data);
 
         return (bool) $result;
     }
 
     /**
-     * @param string $id
+     * @param string $walletId
      * @return array
      */
-    public function findOneBy(string $id): array
+    public function findOneBy(string $walletId): array
     {
         $builder = $this->model::query();
-        return $builder->where('id', $id)->firstOrFail()->toArray();
+        return $builder->where('id', $walletId)->firstOrFail()->toArray();
     }
 }

@@ -9,13 +9,16 @@ use App\Repositories\UserRepository;
 use App\Repositories\WalletRepository;
 use Ramsey\Uuid\Uuid;
 
+/**
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
 class TransactionService
 {
     public function __construct(
-        private TransactionRepository $transactionRepository,
+        private TransactionRepository $transactionRepo,
         private WalletRepository $walletRepository,
         private UserRepository $userRepository,
-        private ExternalAuthorizerService $externalAuthorizerService
+        private ExternalAuthorizerService $externalAuthService
     ) {
     }
 
@@ -23,22 +26,22 @@ class TransactionService
     {
         $transactionData = $this->prepareTransaction($transaction);
 
-        $transactionDatabaseResponse = $this->transactionRepository->create($transactionData);
+        $transactionDBRes = $this->transactionRepo->create($transactionData);
 
-        dispatch(new ProcessTransactionJob($transactionDatabaseResponse))
+        dispatch(new ProcessTransactionJob($transactionDBRes))
             ->onQueue('transactionJobQueue');
 
-        event(new NewTransactionCreatedEvent($transactionDatabaseResponse));
+        event(new NewTransactionCreatedEvent($transactionDBRes));
 
-        return $transactionDatabaseResponse;
+        return $transactionDBRes;
     }
 
     private function prepareTransaction(array $transaction): array
     {
-        $transaction_id = Uuid::uuid4()->toString();
+        $transactionId = Uuid::uuid4()->toString();
 
         return [
-            'id' => $transaction_id,
+            'id' => $transactionId,
             'payer_wallet_id' => $transaction['payer'],
             'payee_wallet_id' => $transaction['payee'],
             'value' => $transaction['value'],
@@ -46,21 +49,21 @@ class TransactionService
         ];
     }
 
-    public function payerWalletHasEnoughBalance(string $payer_wallet_id, float $value): bool
+    public function payerWalletHasEnoughBalance(string $payerWalletId, float $value): bool
     {
-        $payer_wallet = $this->walletRepository->findOneBy($payer_wallet_id);
-        return $payer_wallet['balance'] >= $value;
+        $payerWallet = $this->walletRepository->findOneBy($payerWalletId);
+        return $payerWallet['balance'] >= $value;
     }
 
-    public function payerIsACommonUser(string $payer_wallet_id): bool
+    public function payerIsACommonUser(string $payerWalletId): bool
     {
-        $payer_wallet = $this->walletRepository->findOneBy($payer_wallet_id);
-        $payer = $this->userRepository->findOneBy($payer_wallet['user_id']);
+        $payerWallet = $this->walletRepository->findOneBy($payerWalletId);
+        $payer = $this->userRepository->findOneBy($payerWallet['user_id']);
         return !$payer['shopkeeper'];
     }
 
     public function isTransactionAuthorized(array $transaction): bool
     {
-        return $this->externalAuthorizerService->authorize($transaction);
+        return $this->externalAuthService->authorize($transaction);
     }
 }

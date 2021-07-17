@@ -2,6 +2,9 @@
 
 namespace App\Events;
 
+/**
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
 class NewTransactionCreatedEvent extends Event
 {
     /**

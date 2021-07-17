@@ -4,6 +4,9 @@ namespace App\Repositories;
 
 use App\Models\Transaction;
 
+/**
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
 class TransactionRepository
 {
     public function __construct(
@@ -17,13 +20,13 @@ class TransactionRepository
     }
 
     /**
-     * @param string $id
+     * @param string $transactionId
      * @param array $data
      * @return boolean
      */
-    public function updateBy(string $id, array $data): bool
+    public function updateBy(string $transactionId, array $data): bool
     {
-        $result = $this->model::where('id', $id)->firstOrFail()
+        $result = $this->model::where('id', $transactionId)->firstOrFail()
             ->update($data);
 
         return (bool) $result;

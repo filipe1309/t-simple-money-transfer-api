@@ -24,6 +24,6 @@ $router->group(['prefix' => 'v1', 'namespace' => 'V1'], function ($router) {
 
     $router->group(['prefix' => 'users'], function ($router) {
         $router->get('/', 'UserController@findAll');
-        $router->get('/{id}', 'UserController@findOneBy');
+        $router->get('/{userId}', 'UserController@findOneBy');
     });
 });

@@ -4,6 +4,9 @@ namespace App\Services;
 
 use App\Repositories\UserRepository;
 
+/**
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
 class UserService
 {
     public function __construct(
@@ -22,12 +25,12 @@ class UserService
     }
 
     /**
-     * @param string $id
+     * @param string $userId
      * @return array
      */
-    public function findOneBy(string $id): array
+    public function findOneBy(string $userId): array
     {
-        return $this->repository->findOneBy($id);
+        return $this->repository->findOneBy($userId);
     }
 
     /**

@@ -6,6 +6,9 @@ use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 
+/**
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
 class UserRepository
 {
     public function __construct(
@@ -30,17 +33,18 @@ class UserRepository
 
         $results = $this->buildOrderBy($results, $orderBy);
 
+        /** @var Object $this*/
         return $this->buildPaginate($results, $orderBy, $limit)->toArray();
     }
 
     /**
-     * @param string $id
+     * @param string $userId
      * @return array
      */
-    public function findOneBy(string $id): array
+    public function findOneBy(string $userId): array
     {
         $builder = $this->model::query()->with('wallets');
-        return $builder->where('id', $id)->firstOrFail()->toArray();
+        return $builder->where('id', $userId)->firstOrFail()->toArray();
     }
 
     /**
@@ -62,6 +66,7 @@ class UserRepository
 
         $results = $this->buildOrderBy($results, $orderBy);
 
+        /** @var Object $this*/
         return $this->buildPaginate($results, $orderBy, $limit, $string)->toArray();
     }
 

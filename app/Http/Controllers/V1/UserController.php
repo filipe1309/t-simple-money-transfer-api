@@ -10,6 +10,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+/**
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
 class UserController extends Controller
 {
     private array $searchFields = ['full_name', 'email', 'shopkeeper', 'registration_number'];
@@ -19,7 +22,8 @@ class UserController extends Controller
      * @return void
      */
     public function __construct(
-        private UserService $service
+        private UserService $service,
+        private OrderByHelper $orderByHelper
     ) {
     }
 
@@ -37,15 +41,15 @@ class UserController extends Controller
     }
 
     /**
-     * @param Exception $e
+     * @param Exception $exception
      * @param integer $statusCode
      * @return array
      */
-    protected function errorResponse(Exception $e, int $statusCode = Response::HTTP_BAD_REQUEST): array
+    protected function errorResponse(Exception $exception, int $statusCode = Response::HTTP_BAD_REQUEST): array
     {
         return [
             'status_code' => $statusCode,
-            'message' => $e->getMessage()
+            'message' => $exception->getMessage()
         ];
     }
 
@@ -57,14 +61,14 @@ class UserController extends Controller
     {
         try {
             $limit = (int) $request->get('limit', 10);
-            $orderBy = OrderByHelper::treatOrderBy($request->get('order_by', ''));
+            $orderBy = $this->orderByHelper->treatOrderBy($request->get('order_by', ''));
             $searchString = $request->get('q', '');
 
             if (!empty($searchString)) {
                 $result = $this->service->searchBy($searchString, $this->searchFields, $limit, $orderBy);
-            } else {
-                $result = $this->service->findAll($limit, $orderBy);
             }
+
+            $result = $result ?? $this->service->findAll($limit, $orderBy);
 
             $response = $this->successResponse($result, Response::HTTP_PARTIAL_CONTENT);
         } catch (Exception $e) {
@@ -75,13 +79,13 @@ class UserController extends Controller
     }
 
     /**
-     * @param string $id
+     * @param string $userId
      * @return JsonResponse
      */
-    public function findOneBy(string $id): JsonResponse
+    public function findOneBy(string $userId): JsonResponse
     {
         try {
-            $result = $this->service->findOneBy($id);
+            $result = $this->service->findOneBy($userId);
             $response = $this->successResponse($result);
         } catch (Exception $e) {
             $response = $this->errorResponse($e);

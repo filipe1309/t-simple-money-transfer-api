@@ -7,6 +7,9 @@ use App\Repositories\UserRepository;
 use App\Repositories\WalletRepository;
 use Illuminate\Support\Facades\Mail;
 
+/**
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
 class MailService
 {
 
