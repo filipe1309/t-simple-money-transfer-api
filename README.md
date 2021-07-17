@@ -66,12 +66,22 @@ docker-compose exec php php artisan queue:listen --queue=transactionJobQueue,not
 
 > `payer` & `payee` are the wallets id of the users
 
+### List all users
+
+`GET http://localhost:5001/v1/users`
+
+### List one users
+
+`GET http://localhost:5001/v1/users/USER-ID`
+
+> Where `USER-ID` is the id of the user =)
+
 ## :white_check_mark: Tests
 
 After up the container:
 
 ```sh
-docker-compose exec php ./vendor/bin/phpunit
+./vendor/bin/phpunit
 ```
 
 ## :pushpin: Roadmap

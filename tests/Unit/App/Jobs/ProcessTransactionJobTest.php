@@ -13,6 +13,15 @@ use Laravel\Lumen\Testing\DatabaseTransactions;
 
 class ProcessTransactionJobTest extends TestCase
 {
+    use DatabaseMigrations;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        Mail::fake();
+        $this->artisan('db:seed');
+    }
+
     public function test_transactions_can_be_processed(): void
     {
         Event::fake([TransactionProcessedEvent::class]);
@@ -149,8 +158,6 @@ class ProcessTransactionJobTest extends TestCase
 
     public function test_an_transaction_email_is_sent()
     {
-        Mail::fake();
-
         $transactionValue = 50;
         $transaction = ['value' => $transactionValue];
 

@@ -4,19 +4,22 @@ use App\Events\NewTransactionCreatedEvent;
 use App\Jobs\ProcessTransactionJob;
 use App\Models\User;
 use App\Models\Wallet;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
 class TransactionControllerTest extends TestCase
 {
-    //use DatabaseMigrations;
+    use DatabaseMigrations;
 
     public function setUp(): void
     {
         parent::setUp();
-        // $this->artisan('db:seed');
+        Mail::fake();
+        $this->artisan('db:seed');
     }
 
     public function test_transaction_value_must_greater_than_zero(): void
@@ -70,22 +73,16 @@ class TransactionControllerTest extends TestCase
     public function test_registed_users_can_perform_transactions(): void
     {
         /** @var User $shopkeeper */
-        $shopkeeper = User::factory()
-            ->create(['shopkeeper' => true]);
-        //->refresh();
-        $shopkeeperWallet = Wallet::factory()->make();
-        $shopkeeper->wallets()->save($shopkeeperWallet);
+        $shopkeeper = User::factory()->create(['shopkeeper' => true]);
+        $shopkeeperWallet = Wallet::factory()->create(['user_id' => $shopkeeper->id]);
 
         /** @var User $common */
-        $common = User::factory()
-            ->create(['shopkeeper' => false]);
-        //->refresh();
-        $commonWallet = Wallet::factory()->make();
-        $common->wallets()->save($commonWallet);
+        $common = User::factory()->create(['shopkeeper' => false]);
+        $commonWallet = Wallet::factory()->create(['user_id' => $common->id]);
 
         $value = 123.45;
 
-        $this->withoutMiddleware()->post("v1/transactions", [
+        $this->post("v1/transactions", [
             'payer' => $commonWallet->id,
             'payee' => $shopkeeperWallet->id,
             'value' => $value
@@ -104,10 +101,18 @@ class TransactionControllerTest extends TestCase
     {
         Event::fake([NewTransactionCreatedEvent::class]);
 
-        $this->withoutMiddleware()->post("v1/transactions", [
-            'payer' => '91e92c5f-d9d0-437a-9435-58839fdbb6c5',
-            'payee' => '9442fd46-44cf-4571-9bfd-59670b765719',
-            'value' => '123'
+        $shopkeeper = User::factory()->create(['shopkeeper' => true]);
+        $shopkeeperWallet = Wallet::factory()->create(['user_id' => $shopkeeper->id]);
+
+        $common = User::factory()->create(['shopkeeper' => false]);
+        $commonWallet = Wallet::factory()->create(['user_id' => $common->id]);
+
+        $value = 123.45;
+
+        $this->post("v1/transactions", [
+            'payer' => $commonWallet->id,
+            'payee' => $shopkeeperWallet->id,
+            'value' => $value
         ]);
 
         Event::assertDispatched(NewTransactionCreatedEvent::class);
@@ -115,18 +120,22 @@ class TransactionControllerTest extends TestCase
 
     public function test_a_job_is_dispatched_when_transaction_is_created(): void
     {
-        Event::fake([ProcessTransactionJob::class]);
-        Queue::fake();
+        Bus::fake([ProcessTransactionJob::class]);
 
-        //docker-compose exec php ./vendor/bin/phpunit
-        $this->withoutMiddleware()->post("v1/transactions", [
-            'payer' => '91e92c5f-d9d0-437a-9435-58839fdbb6c5',
-            'payee' => '9442fd46-44cf-4571-9bfd-59670b765719',
-            'value' => '1'
+        $shopkeeper = User::factory()->create(['shopkeeper' => true]);
+        $shopkeeperWallet = Wallet::factory()->create(['user_id' => $shopkeeper->id]);
+
+        $common = User::factory()->create(['shopkeeper' => false]);
+        $commonWallet = Wallet::factory()->create(['user_id' => $common->id]);
+
+        $value = 123.45;
+
+        $this->post("v1/transactions", [
+            'payer' => $commonWallet->id,
+            'payee' => $shopkeeperWallet->id,
+            'value' => $value
         ]);
 
-        Queue::assertPushed(ProcessTransactionJob::class, function ($job) {
-            return !empty($job->transaction);
-        });
+        Bus::assertDispatched(ProcessTransactionJob::class);
     }
 }

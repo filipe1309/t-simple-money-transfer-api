@@ -16,6 +16,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::factory()
+            ->count(4)
             ->create()
             ->each(function ($user) {
                 $user->wallets()->save(Wallet::factory()->make());
