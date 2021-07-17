@@ -23,6 +23,10 @@ This system uses an Event Driven Architecture with `events`, `jobs` & `queues`.
 -   [PHP 8](https://www.php.net/)
 -   [MySQL 8](https://www.mysql.com/)
 -   [Nginx](https://www.nginx.com/)
+-   [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer)
+-   [PHPStan](https://github.com/phpstan/phpstan)
+-   [PHPUnit](https://phpunit.de/)
+-   [PHPMD](https://phpmd.org/)
 -   [Docker](https://www.docker.com/)
 
 ## :scroll: Requirements
