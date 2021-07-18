@@ -103,7 +103,7 @@ docker-compose exec php php artisan queue:listen --queue=transactionJobQueue,not
 }
 ```
 
-> `payer` & `payee` are the wallets id of the users
+> Where `payer` & `payee` are the wallet ids of users
 
 ### List all users
 
@@ -125,12 +125,19 @@ docker-compose exec php php artisan queue:listen --queue=transactionJobQueue,not
 
 ## :pushpin: Roadmap
 
--   [ ] Add authentication and authentication with JWT
+-   [ ] Add authentication and authorization with JWT/Passport
+-   [ ] Add a new endpoint to create a new user
+-   [ ] Multiple wallets per user
+-   [ ] Add a new endpoint to create a new wallet
 -   [ ] Use a Supervisor to monitor the queues and keep works active
--   [ ] Improve code organization with Clean Architectures
--   [ ] Improve authentication with Laravel Passport
+-   [ ] Improve code organization with Clean Architecture
 -   [ ] Refactor Transaction & Notification systems into isolated microservices
 -   [ ] Migrate to to Cloud, like AWS, to be able to scale and use things like SQS, Lambdas & SNS.
+-   [ ] Add a graphQL endpoint to manage the users and wallets
+-   [ ] Add shop to the API
+-   [ ] Add support for multiple currencies
+-   [ ] Add support for cryptocoins (Bitcoin, Litecoin, Dogecoin, etc.)
+-   [ ] Add a frontend
 
 ## License
 
