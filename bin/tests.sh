@@ -4,32 +4,39 @@ echo "#############################################"
 echo "                   TESTS                    "
 echo "#############################################"
 
+TEST_FAILED_MSG="The test failed, fix your code & try again =)"
+
 echo ""
 echo "---------------------------------------------"
 echo "                   PHPUnit"
 echo "---------------------------------------------"
-docker-compose exec php ./vendor/bin/phpunit --do-not-cache-result && echo "" && echo "PHPStan passed"
+# docker-compose exec php
+{ ./vendor/bin/phpunit --no-interaction || { echo -e "\u274c $TEST_FAILED_MSG" ; exit 1; } } \
+&& echo "" && echo -e "\xE2\x9C\x94 PHPUnit passed"
 
 echo ""
 echo "---------------------------------------------"
 echo "                   PHPCS"
 echo "---------------------------------------------"
-docker-compose exec php ./vendor/bin/phpcs && echo "" && echo "PHPStan passed"
+{ ./vendor/bin/phpcs  || { echo -e "\u274c $TEST_FAILED_MSG" ; exit 1; } } \
+&& echo "" && echo -e "\xE2\x9C\x94 PHPCS passed"
 
 echo ""
 echo "---------------------------------------------"
 echo "                   PHPStan"
 echo "---------------------------------------------"
-docker-compose exec php ./vendor/bin/phpstan analyse  --memory-limit=2G && echo "" && echo "PHPStan passed"
+{ ./vendor/bin/phpstan analyse  --memory-limit=2G  || { echo -e "\u274c $TEST_FAILED_MSG" ; exit 1; } } \
+&& echo "" && echo -e "\xE2\x9C\x94 PHPStan passed"
 
 echo ""
 echo "---------------------------------------------"
 echo "                   PHPMD"
 echo "---------------------------------------------"
-docker-compose exec php ./vendor/bin/phpmd app text cleancode,codesize,controversial,design,naming,unusedcode && echo "" && echo "PHPMD passed"
+{ ./vendor/bin/phpmd app text cleancode,codesize,controversial,design,naming,unusedcode  || { echo -e "\u274c $TEST_FAILED_MSG" ; exit 1; } } \
+&& echo "" && echo -e "\xE2\x9C\x94 PHPMD passed"
 
 echo ""
 echo "---------------------------------------------"
-echo "                   ALL TESTS PASSED"
+echo -e "                   \xE2\x9C\x94 ALL TESTS PASSED"
 echo "---------------------------------------------"
 
