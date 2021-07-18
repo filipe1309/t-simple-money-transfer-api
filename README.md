@@ -17,6 +17,41 @@ This system uses an Event Driven Architecture with `events`, `jobs` & `queues`.
 
 ![Architecture](architecture.png)
 
+### Structure
+
+This app uses the **Service Repository Pattern** to improve the maintainability of the code.
+All bussines logic is placed in the `services` folder.
+
+```sh
+.
+├── database
+│   ├── factories
+│   ├── seeders
+│   └── migrations
+├── tests
+│   ├── Integration
+│   └── Unit
+├── app
+│   ├── Services
+│   ├── Listeners
+│   ├── Providers
+│   ├── Console
+│   ├── Mail
+│   ├── Events
+│   ├── Exceptions
+│   ├── Helpers
+│   ├── Http
+│   ├── Models
+│   ├── Repositories
+│   ├── Observers
+│   └── Jobs
+└── public
+```
+
+### Database
+
+![Database](db.png)
+
 ## :computer: Technologies
 
 -   [Lumen 8](https://lumen.laravel.com/)
@@ -82,14 +117,13 @@ docker-compose exec php php artisan queue:listen --queue=transactionJobQueue,not
 
 ## :white_check_mark: Tests
 
-After up the container:
-
 ```sh
-./vendor/bin/phpunit
+./bin/tests.sh
 ```
 
 ## :pushpin: Roadmap
 
+-   [ ] Add authentication and authentication wit JWT
 -   [ ] Use a Supervisor to monitor the queues and keep works active
 -   [ ] Improve code organization with Clean Architectures
 -   [ ] Improve authentication with Laravel Passport
