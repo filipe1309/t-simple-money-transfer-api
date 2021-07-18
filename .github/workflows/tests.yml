@@ -1,0 +1,27 @@
+name: Lumen Tests Workflow
+on: [push]
+
+jobs:
+  tests:
+    name: PHP Tests Step
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setting up Lumen
+        uses: ./.github/actions/lumen
+
+      - name: Running PHPUnit
+        run: ./vendor/bin/phpunit --do-not-cache-result --exclude user
+
+      - name: Running PHPCS
+        run: ./vendor/bin/phpcs
+
+      - name: Running PHPStan
+        run: ./vendor/bin/phpstan analyse  --memory-limit=2G
+
+      - name: Running PHPMD
+        run: ./vendor/bin/phpmd app text cleancode,codesize,controversial,design,naming,unusedcode
