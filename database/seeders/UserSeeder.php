@@ -17,6 +17,9 @@ class UserSeeder extends Seeder
     {
         User::factory()
             ->count(4)
-            ->create();
+            ->create()
+            ->each(function ($user) {
+                Wallet::factory()->create(['user_id' => $user->id]);
+            });
     }
 }

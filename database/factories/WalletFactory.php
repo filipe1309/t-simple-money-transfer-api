@@ -24,7 +24,7 @@ class WalletFactory extends Factory
     {
         return [
             'id' => $this->faker->uuid,
-            'user_id' => User::factory()->create(['shopkeeper' => false])->id,
+            //'user_id' => User::factory()->create(['shopkeeper' => false])->id,
             'balance' => $this->faker->randomFloat(2, 0, 10000)
         ];
     }

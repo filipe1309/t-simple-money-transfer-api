@@ -14,7 +14,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         if (app()->environment('testing')) :
-            // seeds especiais para o ambiente de testes
             $this->call([
                 UserSeeder::class,
             ]);

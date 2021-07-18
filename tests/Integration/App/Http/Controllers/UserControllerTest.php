@@ -6,7 +6,7 @@ use Laravel\Lumen\Testing\DatabaseTransactions;
 
 class UserControllerTest extends TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseTransactions, DatabaseMigrations;
 
     public function setUp(): void
     {

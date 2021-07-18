@@ -7,13 +7,12 @@ use App\Models\Wallet;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Queue;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
 class TransactionControllerTest extends TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseTransactions, DatabaseMigrations;
 
     public function setUp(): void
     {
@@ -24,8 +23,10 @@ class TransactionControllerTest extends TestCase
 
     public function test_transaction_value_must_greater_than_zero(): void
     {
-        $walletId1 = Wallet::factory()->create()->id;
-        $walletId2 = Wallet::factory()->create()->id;
+        $user1 = User::factory()->create();
+        $user2 = User::factory()->create();
+        $walletId1 = Wallet::factory()->create(['user_id' => $user1->id])->id;
+        $walletId2 = Wallet::factory()->create(['user_id' => $user2->id])->id;
 
         $value = 0;
 
