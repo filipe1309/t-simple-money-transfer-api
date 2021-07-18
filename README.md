@@ -117,13 +117,15 @@ docker-compose exec php php artisan queue:listen --queue=transactionJobQueue,not
 
 ## :white_check_mark: Tests
 
+> Tests suite with PHPUnit, PHP_CodeSniffer, PHPStan & PHPMD.
+
 ```sh
 ./bin/tests.sh
 ```
 
 ## :pushpin: Roadmap
 
--   [ ] Add authentication and authentication wit JWT
+-   [ ] Add authentication and authentication with JWT
 -   [ ] Use a Supervisor to monitor the queues and keep works active
 -   [ ] Improve code organization with Clean Architectures
 -   [ ] Improve authentication with Laravel Passport
