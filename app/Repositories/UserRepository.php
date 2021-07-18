@@ -48,29 +48,6 @@ class UserRepository
     }
 
     /**
-     * @param string $string
-     * @param array $searchFields
-     * @param integer $limit
-     * @param array $orderBy
-     * @return array
-     */
-    public function searchBy(string $string, array $searchFields, int $limit = 10, array $orderBy = []): array
-    {
-        $results = $this->model::where($searchFields[0], 'like', "%$string%")->with('wallets');
-
-        if (count($searchFields) > 1) {
-            foreach ($searchFields as $field) {
-                $results->orWhere($field, 'like', "%$string%");
-            }
-        }
-
-        $results = $this->buildOrderBy($results, $orderBy);
-
-        /** @var Object $this*/
-        return $this->buildPaginate($results, $orderBy, $limit, $string)->toArray();
-    }
-
-    /**
      *
      * Example:
      * name DESC, date ASC

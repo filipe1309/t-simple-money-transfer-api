@@ -15,7 +15,6 @@ use Illuminate\Http\Response;
  */
 class UserController extends Controller
 {
-    private array $searchFields = ['full_name', 'email', 'shopkeeper', 'registration_number'];
     /**
      * Create a new controller instance.
      *
@@ -62,13 +61,8 @@ class UserController extends Controller
         try {
             $limit = (int) $request->get('limit', 10);
             $orderBy = $this->orderByHelper->treatOrderBy($request->get('order_by', ''));
-            $searchString = $request->get('q', '');
 
-            if (!empty($searchString)) {
-                $result = $this->service->searchBy($searchString, $this->searchFields, $limit, $orderBy);
-            }
-
-            $result = $result ?? $this->service->findAll($limit, $orderBy);
+            $result = $this->service->findAll($limit, $orderBy);
 
             $response = $this->successResponse($result, Response::HTTP_PARTIAL_CONTENT);
         } catch (Exception $e) {

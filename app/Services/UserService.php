@@ -32,16 +32,4 @@ class UserService
     {
         return $this->repository->findOneBy($userId);
     }
-
-    /**
-     * @param string $string
-     * @param array $searchFields
-     * @param integer $limit
-     * @param array $orderBy
-     * @return array
-     */
-    public function searchBy(string $string, array $searchFields, int $limit = 10, array $orderBy = []): array
-    {
-        return $this->repository->searchBy($string, $searchFields, $limit, $orderBy);
-    }
 }
