@@ -2,8 +2,8 @@
 
 namespace App\Listeners;
 
+use App\Contracts\MailServiceInterface;
 use App\Events\TransactionProcessedEvent;
-use App\Services\MailService;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -22,7 +22,7 @@ class SendTransactionProcessedMailListener implements ShouldQueue
      * @return void
      */
     public function __construct(
-        private MailService $mailService
+        private MailServiceInterface $mailService
     ) {
     }
 

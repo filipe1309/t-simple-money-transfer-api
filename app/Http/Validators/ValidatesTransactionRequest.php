@@ -16,9 +16,9 @@ trait ValidatesTransactionRequest
     protected function validateCreateRequest(Request $request): void
     {
         $this->validate($request, [
-            'payer' => ['required', 'uuid', 'exists:wallets,id'], //, new PayerIsACommonUser, new PayerHasEnoughBalance($request->input('value'))
+            'payer' => ['required', 'uuid', 'exists:wallets,id'],
             'payee' => ['required', 'uuid', 'exists:wallets,id', 'different:payer'],
-            'value' => ['required', 'numeric', 'gt:0', 'regex:/^\d+(\.\d{1,2})?$/'], //, new ValueIsCorrect
+            'value' => ['required', 'numeric', 'gt:0', 'regex:/^\d+(\.\d{1,2})?$/'],
         ]);
     }
 }

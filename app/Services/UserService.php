@@ -2,15 +2,16 @@
 
 namespace App\Services;
 
-use App\Repositories\UserRepository;
+use App\Contracts\UserRepositoryInterface;
+use App\Contracts\UserServiceInterface;
 
 /**
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
-class UserService
+class UserService implements UserServiceInterface
 {
     public function __construct(
-        private UserRepository $repository
+        private UserRepositoryInterface $repository
     ) {
     }
 

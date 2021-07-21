@@ -2,13 +2,13 @@
 
 namespace App\Jobs;
 
+use App\Contracts\TransactionRepositoryInterface;
+use App\Contracts\TransactionServiceInterface;
+use App\Contracts\WalletRepositoryInterface;
 use App\Events\TransactionProcessedEvent;
 use App\Exceptions\NotEnoughtBalanceException;
 use App\Exceptions\PayerIsAShopKeeperException;
 use App\Exceptions\TransactionNotAuthorizedException;
-use App\Repositories\TransactionRepository;
-use App\Repositories\WalletRepository;
-use App\Services\TransactionService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -25,9 +25,9 @@ class ProcessTransactionJob implements ShouldQueue
 
     use InteractsWithQueue, Queueable, SerializesModels;
 
-    private TransactionRepository $transactionRepo;
-    private WalletRepository $walletRepository;
-    private TransactionService $transactionService;
+    private TransactionRepositoryInterface $transactionRepo;
+    private WalletRepositoryInterface $walletRepository;
+    private TransactionServiceInterface $transactionService;
 
     /**
      * Create a new job instance.
@@ -37,9 +37,9 @@ class ProcessTransactionJob implements ShouldQueue
     public function __construct(
         public array $transaction
     ) {
-        $this->transactionRepo = app(TransactionRepository::class);
-        $this->walletRepository = app(WalletRepository::class);
-        $this->transactionService = app(TransactionService::class);
+        $this->transactionRepo = app(TransactionRepositoryInterface::class);
+        $this->walletRepository = app(WalletRepositoryInterface::class);
+        $this->transactionService = app(TransactionServiceInterface::class);
     }
 
     /**

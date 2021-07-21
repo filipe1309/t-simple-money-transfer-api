@@ -2,12 +2,13 @@
 
 namespace App\Repositories;
 
+use App\Contracts\WalletRepositoryInterface;
 use App\Models\Wallet;
 
 /**
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
-class WalletRepository
+class WalletRepository implements WalletRepositoryInterface
 {
     public function __construct(
         private Wallet $model

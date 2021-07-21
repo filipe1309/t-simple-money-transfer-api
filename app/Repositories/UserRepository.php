@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Contracts\UserRepositoryInterface;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 /**
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
-class UserRepository
+class UserRepository implements UserRepositoryInterface
 {
     public function __construct(
         private User $model,

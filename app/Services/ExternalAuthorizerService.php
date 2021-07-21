@@ -2,13 +2,14 @@
 
 namespace App\Services;
 
+use App\Contracts\ExternalAuthorizerServiceInterface;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 
 /**
  * @SuppressWarnings(PHPMD.StaticAccess)
  */
-class ExternalAuthorizerService
+class ExternalAuthorizerService implements ExternalAuthorizerServiceInterface
 {
     public function authorize(array $transaction): bool
     {
