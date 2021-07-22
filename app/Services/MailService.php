@@ -2,20 +2,21 @@
 
 namespace App\Services;
 
+use App\Contracts\MailServiceInterface;
+use App\Contracts\UserRepositoryInterface;
+use App\Contracts\WalletRepositoryInterface;
 use App\Mail\TransactionNotificationMail;
-use App\Repositories\UserRepository;
-use App\Repositories\WalletRepository;
 use Illuminate\Support\Facades\Mail;
 
 /**
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
-class MailService
+class MailService implements MailServiceInterface
 {
 
     public function __construct(
-        private WalletRepository $walletRepository,
-        private UserRepository $userRepository
+        private WalletRepositoryInterface $walletRepository,
+        private UserRepositoryInterface $userRepository
     ) {
     }
 

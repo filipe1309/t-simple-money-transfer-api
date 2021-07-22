@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\V1;
 
+use App\Contracts\UserServiceInterface;
 use App\Helpers\OrderByHelper;
 use App\Http\Controllers\Controller;
-use App\Services\UserService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -21,7 +21,7 @@ class UserController extends Controller
      * @return void
      */
     public function __construct(
-        private UserService $service,
+        private UserServiceInterface $service,
         private OrderByHelper $orderByHelper
     ) {
     }

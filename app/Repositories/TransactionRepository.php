@@ -2,12 +2,13 @@
 
 namespace App\Repositories;
 
+use App\Contracts\TransactionRepositoryInterface;
 use App\Models\Transaction;
 
 /**
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
-class TransactionRepository
+class TransactionRepository implements TransactionRepositoryInterface
 {
     public function __construct(
         private Transaction $model

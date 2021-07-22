@@ -2,9 +2,10 @@
 
 namespace App\Services;
 
+use App\Contracts\TransactionRepositoryInterface;
+use App\Contracts\TransactionServiceInterface;
 use App\Events\NewTransactionCreatedEvent;
 use App\Jobs\ProcessTransactionJob;
-use App\Repositories\TransactionRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\WalletRepository;
 use Ramsey\Uuid\Uuid;
@@ -12,10 +13,10 @@ use Ramsey\Uuid\Uuid;
 /**
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
-class TransactionService
+class TransactionService implements TransactionServiceInterface
 {
     public function __construct(
-        private TransactionRepository $transactionRepo,
+        private TransactionRepositoryInterface $transactionRepo,
         private WalletRepository $walletRepository,
         private UserRepository $userRepository,
         private ExternalAuthorizerService $externalAuthService

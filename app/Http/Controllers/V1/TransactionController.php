@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\V1;
 
+use App\Contracts\TransactionServiceInterface;
 use App\Exceptions\NotEnoughtBalanceException;
 use App\Exceptions\PayerIsAShopKeeperException;
 use App\Http\Controllers\Controller;
 use App\Http\Validators\ValidatesTransactionRequest;
-use App\Services\TransactionService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -24,7 +24,7 @@ class TransactionController extends Controller
      * @return void
      */
     public function __construct(
-        private TransactionService $service
+        private TransactionServiceInterface $service
     ) {
     }
 

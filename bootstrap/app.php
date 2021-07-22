@@ -48,6 +48,15 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
+
+$app->bind(App\Contracts\ExternalAuthorizerServiceInterface::class, App\Services\ExternalAuthorizerService::class);
+$app->bind(App\Contracts\MailServiceInterface::class, App\Services\MailService::class);
+$app->bind(App\Contracts\TransactionRepositoryInterface::class, App\Repositories\TransactionRepository::class);
+$app->bind(App\Contracts\TransactionServiceInterface::class, App\Services\TransactionService::class);
+$app->bind(App\Contracts\UserRepositoryInterface::class, App\Repositories\UserRepository::class);
+$app->bind(App\Contracts\UserServiceInterface::class, App\Services\UserService::class);
+$app->bind(App\Contracts\WalletRepositoryInterface::class, App\Repositories\WalletRepository::class);
+
 /*
 |--------------------------------------------------------------------------
 | Register Config Files
