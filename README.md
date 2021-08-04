@@ -85,10 +85,6 @@ cd t-simple-money-transfer-api
 docker-compose up -d
 ```
 
-```sh
-docker-compose exec php php artisan queue:listen --queue=transactionJobQueue,notificationEventQueue --timeout=60 --sleep=3 --tries=3
-```
-
 > Access http://localhost:5001
 
 ### Trigger transaction
@@ -109,7 +105,7 @@ docker-compose exec php php artisan queue:listen --queue=transactionJobQueue,not
 
 `GET http://localhost:5001/v1/users`
 
-### List one users
+### List one user
 
 `GET http://localhost:5001/v1/users/USER-ID`
 
