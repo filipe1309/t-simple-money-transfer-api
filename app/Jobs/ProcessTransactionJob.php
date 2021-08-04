@@ -71,8 +71,10 @@ class ProcessTransactionJob implements ShouldQueue
 
             $this->dispatchNotificationEvents();
         } catch (NotEnoughtBalanceException | PayerIsAShopKeeperException | TransactionNotAuthorizedException $e) {
+            DB::rollback();
             $this->dispatchFailedNotificationEvent($e->getMessage());
         } catch (Throwable $e) {
+            DB::rollback();
             throw $e;
         }
     }
