@@ -12,6 +12,9 @@ services:
   php:
     build: .docker/php
     privileged: true
+    working_dir: /var/www/html
+    entrypoint: dockerize -wait tcp://db:3306 -timeout 30s -wait-retry-interval 5s
+    command: entrypoint.sh
     volumes:
       - .:/var/www/html
     depends_on:

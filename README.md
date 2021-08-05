@@ -63,6 +63,7 @@ All bussines logic is placed in the `services` folder.
 -   [PHPUnit](https://phpunit.de/)
 -   [PHPMD](https://phpmd.org/)
 -   [Docker](https://www.docker.com/)
+-   [Dockerize](https://github.com/jwilder/dockerize)
 
 ## :scroll: Requirements
 
