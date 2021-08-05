@@ -11,7 +11,7 @@ class Wallet extends Model
     use HasFactory;
 
     protected $fillable = [
-        'balance',
+        'id', 'balance',
     ];
 
     protected $casts = [
