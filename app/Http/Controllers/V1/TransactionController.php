@@ -3,14 +3,12 @@
 namespace App\Http\Controllers\V1;
 
 use App\Contracts\TransactionServiceInterface;
-use App\Exceptions\NotEnoughtBalanceException;
-use App\Exceptions\PayerIsAShopKeeperException;
 use App\Http\Controllers\Controller;
 use App\Http\Validators\ValidatesTransactionRequest;
-use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Throwable;
 
 /**
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
@@ -35,10 +33,7 @@ class TransactionController extends Controller
             $transaction = $this->service->create($request->all());
             $response = ['status' => true, 'id' => $transaction['id']];
             $statusCode = Response::HTTP_CREATED;
-        } catch (NotEnoughtBalanceException | PayerIsAShopKeeperException $e) {
-            $response = ['message' => $e->getMessage()];
-            $statusCode = $e->getCode();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $response = ['message' => $e->getMessage()];
             $statusCode = Response::HTTP_BAD_REQUEST;
         }

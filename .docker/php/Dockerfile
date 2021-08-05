@@ -40,4 +40,4 @@ WORKDIR /var/www/html
 
 COPY entrypoint.sh /usr/local/bin/
 
-ENTRYPOINT ["entrypoint.sh"]
+CMD ["entrypoint.sh"]
