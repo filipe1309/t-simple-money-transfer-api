@@ -27,9 +27,21 @@ We have 2 types of users, common and shopkeepers, both have a wallet with money 
 
 5. Before finalizing the transfer, you should consult an external authorizing service, use this mock to simulate (https://run.mocky.io/v3/8fafdd68-a090-496f-8c9a-3442cf30dae6).
 
+```json
+{
+    "message": "Autorizado"
+}
+```
+
 6. The transfer operation must be a transaction (ie, reversed in any case of inconsistency) and the money must return to the wallet of the sending user.
 
 7. Upon receipt of payment, the user or merchant needs to receive notification (email, sms) sent by a third party service and eventually this service may be unavailable/unstable. Use this mock to simulate uploading (http://o4d9z.mocklab.io/notify).
+
+```json
+{
+    "message": "Success"
+}
+```
 
 8. This service must be RESTFul.
 
