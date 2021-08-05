@@ -11,6 +11,28 @@
 
 This is a simple API to transfer money between users.
 
+### 🏆 Challenge details
+
+We have 2 types of users, common and shopkeepers, both have a wallet with money and carry out transfers between them. Let's pay attention only to the transfer flow between two users.
+
+### 📃 Rules
+
+1. For both types of users, we need Full Name, CPF, e-mail and Password. CPF/CNPJ and emails must be unique in the system. Therefore, your system should only allow one registration with the same CPF or email address.
+
+2. Users can send money (transfer) to retailers and between users.
+
+3. Shopkeepers only receive transfers, they don't send money to anyone.
+
+4. Validate if the user has a balance before the transfer.
+
+5. Before finalizing the transfer, you should consult an external authorizing service, use this mock to simulate (https://run.mocky.io/v3/8fafdd68-a090-496f-8c9a-3442cf30dae6).
+
+6. The transfer operation must be a transaction (ie, reversed in any case of inconsistency) and the money must return to the wallet of the sending user.
+
+7. Upon receipt of payment, the user or merchant needs to receive notification (email, sms) sent by a third party service and eventually this service may be unavailable/unstable. Use this mock to simulate uploading (http://o4d9z.mocklab.io/notify).
+
+8. This service must be RESTFul.
+
 ## :triangular_ruler: Architecture
 
 This system uses an Event Driven Architecture with `events`, `jobs` & `queues`.
@@ -156,4 +178,4 @@ docker-compose up -d
 
 ---
 
-> @ Generated with [skeleton-courses](https://github.com/filipe1309/skeleton-courses)
+> @ Generated with [Shubcogen](https://github.com/filipe1309/shubcogen)
